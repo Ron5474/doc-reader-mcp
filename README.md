@@ -93,8 +93,12 @@ After editing the config, restart Claude for the changes to take effect.
 
 ## Usage
 
-Once configured, you can ask Claude to read any PDF or PPTX file by providing its absolute path:
+Once configured, you can ask Claude to read any supported file by providing its absolute path:
 
 > "Read the PDF at /home/user/documents/report.pdf"
 
 > "Summarize the slides at /home/user/presentations/lecture.pptx"
+
+> "Extract the text from /home/user/documents/report.docx"
+
+> "Show me the data in /home/user/spreadsheets/budget.xlsx"

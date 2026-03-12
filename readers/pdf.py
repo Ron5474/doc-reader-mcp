@@ -8,6 +8,8 @@ def read_pdf(path: str) -> list:
     """Extract text, tables, and images from a PDF file, page by page."""
     if not os.path.exists(path):
         raise ValueError(f"File not found: {path}")
+    if not path.lower().endswith(".pdf"):
+        raise ValueError(f"Expected a .pdf file, got: {path}")
 
     try:
         doc = fitz.open(path)

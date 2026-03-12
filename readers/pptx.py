@@ -9,6 +9,8 @@ def read_pptx(path: str) -> list:
     """Extract text, images, and speaker notes from a PowerPoint file, slide by slide."""
     if not os.path.exists(path):
         raise ValueError(f"File not found: {path}")
+    if not path.lower().endswith(".pptx"):
+        raise ValueError(f"Expected a .pptx file, got: {path}")
 
     try:
         prs = Presentation(path)

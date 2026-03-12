@@ -22,6 +22,8 @@ def read_docx(path: str) -> list:
     """Extract text, tables, and images from a Word document."""
     if not os.path.exists(path):
         raise ValueError(f"File not found: {path}")
+    if not path.lower().endswith(".docx"):
+        raise ValueError(f"Expected a .docx file, got: {path}")
 
     try:
         doc = Document(path)

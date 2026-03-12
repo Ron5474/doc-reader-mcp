@@ -7,6 +7,8 @@ def read_xlsx(path: str) -> list:
     """Extract data from an Excel file, one TextContent per sheet rendered as markdown."""
     if not os.path.exists(path):
         raise ValueError(f"File not found: {path}")
+    if not path.lower().endswith(".xlsx"):
+        raise ValueError(f"Expected a .xlsx file, got: {path}")
 
     try:
         xl = pd.ExcelFile(path, engine="openpyxl")
