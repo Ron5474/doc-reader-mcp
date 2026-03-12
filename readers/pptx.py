@@ -1,5 +1,6 @@
 from mcp.types import TextContent, ImageContent
 from pptx import Presentation
+from pptx.enum.shapes import MSO_SHAPE_TYPE
 import base64
 import os
 
@@ -35,7 +36,7 @@ def read_pptx(path: str) -> list:
             output.append(TextContent(type="text", text=content))
 
         for shape in slide.shapes:
-            if shape.shape_type == 13:
+            if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
                 img = shape.image
                 b64 = base64.standard_b64encode(img.blob).decode("utf-8")
                 mime = img.content_type
