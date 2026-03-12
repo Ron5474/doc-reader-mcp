@@ -1,10 +1,7 @@
 import pytest
-import io
 from docx import Document
 from pptx import Presentation
-from pptx.util import Inches
 import openpyxl
-import fitz
 
 
 @pytest.fixture

@@ -12,5 +12,7 @@ dependencies = [
     "tabulate>=0.10.0",
     "python-docx>=1.1.0",
     "openpyxl>=3.1.0",
-    "pytest>=8.0.0",
 ]
+
+[dependency-groups]
+dev = ["pytest>=8.0.0"]
