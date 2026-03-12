@@ -15,29 +15,30 @@ def read_pdf(path: str) -> list:
         raise ValueError(f"Could not open PDF: {e}") from e
 
     output = []
-    for i, page in enumerate(doc, start=1):
-        text = page.get_text().strip()
+    try:
+        for i, page in enumerate(doc, start=1):
+            text = page.get_text().strip()
 
-        tables = page.find_tables()
-        if tables.tables:
-            for table in tables.tables:
-                df = table.to_pandas()
-                markdown_table = df.to_markdown(index=False)
-                for col in df.columns:
-                    for val in df[col].astype(str):
-                        text = text.replace(val, "", 1)
-                text = text.strip() + f"\n\n{markdown_table}"
+            tables = page.find_tables()
+            if tables.tables:
+                for table in tables.tables:
+                    df = table.to_pandas()
+                    markdown_table = df.to_markdown(index=False)
+                    for col in df.columns:
+                        for val in df[col].astype(str):
+                            text = text.replace(val, "", 1)
+                    text = text.strip() + f"\n\n{markdown_table}"
 
-        if text:
-            output.append(TextContent(type="text", text=f"--- Page {i} ---\n{text}"))
+            if text:
+                output.append(TextContent(type="text", text=f"--- Page {i} ---\n{text}"))
 
-        for img in page.get_images():
-            xref = img[0]
-            base_img = doc.extract_image(xref)
-            img_bytes = base_img["image"]
-            ext = base_img["ext"]
-            b64 = base64.standard_b64encode(img_bytes).decode("utf-8")
-            output.append(ImageContent(type="image", data=b64, mimeType=f"image/{ext}"))
-
-    doc.close()
+            for img in page.get_images():
+                xref = img[0]
+                base_img = doc.extract_image(xref)
+                img_bytes = base_img["image"]
+                ext = base_img["ext"]
+                b64 = base64.standard_b64encode(img_bytes).decode("utf-8")
+                output.append(ImageContent(type="image", data=b64, mimeType=f"image/{ext}"))
+    finally:
+        doc.close()
     return output

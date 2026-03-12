@@ -1,3 +1,4 @@
+import pytest
 from mcp.types import TextContent, ImageContent
 from readers.pdf import read_pdf
 
@@ -19,6 +20,5 @@ def test_read_pdf_returns_text(tmp_path):
 
 
 def test_read_pdf_file_not_found():
-    import pytest
     with pytest.raises(ValueError, match="not found"):
         read_pdf("/nonexistent/path/file.pdf")
