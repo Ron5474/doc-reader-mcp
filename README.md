@@ -4,8 +4,10 @@ An MCP (Model Context Protocol) server that extracts text and images from PDF an
 
 ## Tools
 
-- `read_pdf` — Extracts text and images from a PDF file, page by page. Also detects and formats tables as Markdown.
-- `read_pptx` — Extracts text and images from a PowerPoint file, slide by slide.
+- `read_pdf` — Extracts text, tables (as Markdown), and images from a PDF file, page by page.
+- `read_pptx` — Extracts text, images, and speaker notes from a PowerPoint file, slide by slide.
+- `read_docx` — Extracts text, tables (as Markdown), and images from a Word document.
+- `read_xlsx` — Extracts data from an Excel file as Markdown tables, one section per sheet.
 
 ## Requirements
 
