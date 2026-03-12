@@ -6,6 +6,11 @@ import os
 
 
 def _table_to_markdown(table) -> str:
+    """Convert a python-docx Table to a markdown table string.
+
+    Assumes the first row is a header row. If the table has no conceptual
+    header, the first data row will be used as column names.
+    """
     data = [[cell.text for cell in row.cells] for row in table.rows]
     if not data:
         return ""
@@ -26,24 +31,25 @@ def read_docx(path: str) -> list:
     output = []
     texts = []
 
+    para_map = {id(p._element): p for p in doc.paragraphs}
+    table_map = {id(t._element): t for t in doc.tables}
+
     for block in doc.element.body:
         tag = block.tag.split("}")[-1]
 
         if tag == "p":
-            for para in doc.paragraphs:
-                if para._element is block:
-                    line = para.text.strip()
-                    if line:
-                        texts.append(line)
-                    break
+            para = para_map.get(id(block))
+            if para:
+                line = para.text.strip()
+                if line:
+                    texts.append(line)
 
         elif tag == "tbl":
-            for table in doc.tables:
-                if table._element is block:
-                    md = _table_to_markdown(table)
-                    if md:
-                        texts.append(md)
-                    break
+            table = table_map.get(id(block))
+            if table:
+                md = _table_to_markdown(table)
+                if md:
+                    texts.append(md)
 
     if texts:
         output.append(TextContent(type="text", text="\n".join(texts)))
