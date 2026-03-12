@@ -14,9 +14,11 @@ def read_xlsx(path: str) -> list:
         raise ValueError(f"Could not open XLSX: {e}") from e
 
     output = []
-    for sheet_name in xl.sheet_names:
-        df = xl.parse(sheet_name)
-        md = df.to_markdown(index=False)
-        output.append(TextContent(type="text", text=f"--- Sheet: {sheet_name} ---\n{md}"))
+    with xl:
+        for sheet_name in xl.sheet_names:
+            df = xl.parse(sheet_name)
+            md = df.to_markdown(index=False)
+            if md:
+                output.append(TextContent(type="text", text=f"--- Sheet: {sheet_name} ---\n{md}"))
 
     return output
